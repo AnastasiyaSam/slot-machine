@@ -30,10 +30,19 @@ const app = new PIXI.Application({
     resolution: 1
 });
 
+// Create a sprite for the background image
+const background = PIXI.Sprite.from('bg2.jpg');
+background.width = app.screen.width
+background.height = app.screen.height;
+background.scale.set(2);
+
+// Add the background to the stage
+app.stage.addChild(background);
+
 let isSpinning = 0; // number of spinning reels'
 let isWin = false;
 const spriteHeight = 100;
-const windowY = 120+1.5*spriteHeight;
+const windowY = 140+1.5*spriteHeight;
 
 window.addEventListener("load", async () => {
     await loadAssets();
@@ -105,7 +114,6 @@ function spinReels(reels, spriteHeight, numberSprites, windowY) {
     }
 }
 
-
 // generate rand int in range [0,...,length-1]
 function randInt(length){
     return Math.floor(Math.random() * length)
@@ -134,7 +142,7 @@ function winAnimation() {
         win.x = 0.5*app.screen.width;
         win.y = windowY-spriteHeight;
         win.anchor.set(0.5);
-        win.scale.set(4.1*spriteHeight/win.width, 3*spriteHeight/win.height);
+        win.scale.set(3.5*spriteHeight/win.width, 3*spriteHeight/win.height);
         win.animationSpeed = 0.2; // Set the animation speed
         win.loop = true;
         win.alpha = 0.5;
@@ -156,11 +164,17 @@ async function run() {
     slotWindow.endFill();
     app.stage.addChild(slotWindow);
 
+    let slotFrame = new PIXI.Graphics();
+    slotFrame.beginFill('purple');
+    slotFrame.drawRoundedRect(app.screen.width*0.5-spriteHeight*1.9, windowY-2.65*spriteHeight, spriteHeight*3.8, spriteHeight*3.3, 20);
+    slotFrame.endFill();
+    app.stage.addChild(slotFrame);
+
     const spriteNames = ['High1.png','High2.png','High3.png','High4.png'];
     let reels = [];
 
     for (let i= 0; i < 3; i++){
-        reels.push(createReel(spriteNames, spriteHeight, slotWindow, windowY, app.screen.width*0.5 + (i-1)*spriteHeight*1.5));
+        reels.push(createReel(spriteNames, spriteHeight, slotWindow, windowY, app.screen.width*0.5 + (i-1)*spriteHeight*1.2));
     }
 
     const button = new PIXI.Sprite(PIXI.Texture.from('play_btn1.png'));
@@ -168,7 +182,7 @@ async function run() {
     button.y = 350;
     button.x = 340;
     button.eventMode = 'static';
-
+    
 
     button.addListener('pointerdown', () =>
     {
