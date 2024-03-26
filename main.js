@@ -170,7 +170,7 @@ async function run() {
     slotFrame.endFill();
     app.stage.addChild(slotFrame);
 
-    const spriteNames = ['High1.png','High2.png','High3.png','High4.png'];
+    const spriteNames = ['High1.png','High2.png','High3.png','High4.png','Low1.png','Low2.png','Low3.png','Low4.png'];
     let reels = [];
 
     for (let i= 0; i < 3; i++){
